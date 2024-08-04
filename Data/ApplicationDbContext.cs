@@ -37,6 +37,7 @@ namespace NBADemo.Data
                 entity.Property(e => e.PlayerId).HasColumnName("player_id");
                 entity.Property(e => e.SeasonId).HasColumnName("seas_id");
                 entity.Property(e => e.Team).HasColumnName("tm");
+                entity.Property(e => e.Minutes).HasColumnName("mp");
                 entity.Property(e => e.PGPercent).HasColumnName("pg_percent");
                 entity.Property(e => e.SGPercent).HasColumnName("sg_percent");
                 entity.Property(e => e.SFPercent).HasColumnName("sf_percent");

@@ -9,6 +9,8 @@ namespace NBADemo.Components.CompareTool
 {
     public partial class CompareTool
     {
+        private int _minMinutes = 250;
+
         [Inject]
         ApplicationDbContext DbContext { get; set; }
         public List<PlayerSeasonInfo> PlayerSeasonInfo { get; set; }
@@ -112,7 +114,10 @@ namespace NBADemo.Components.CompareTool
                 if (ci is not null && pb is not null && ss is not null && sl is not null && per100 is not null && ci.Height is not null && ci.Weight is not null)
                 {
                     var row = new CompareToolRow(item, ci, per100, pb, ss, sl);
-                    CompareToolRows.Add(row);
+                    if (row.Minutes >= _minMinutes)
+                    {
+                        CompareToolRows.Add(row);
+                    }
                 }
             }
         }

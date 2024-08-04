@@ -46,6 +46,40 @@
                     </CellTemplate>
                 </TemplateColumn>
                 <PropertyColumn Property="x => x.Weight" Title="Wt" Format="F0" />
+
+                <PropertyColumn Property="x => x.Minutes" Title="Mins" Format="F0" />
+
+                <PropertyColumn Property="x => x.PGPercent" Title="PG%" Format="F1" />
+                <PropertyColumn Property="x => x.SGPercent" Title="SG%" Format="F1" />
+                <PropertyColumn Property="x => x.SFPercent" Title="SF%" Format="F1" />
+                <PropertyColumn Property="x => x.PFPercent" Title="PF%" Format="F1" />
+                <PropertyColumn Property="x => x.CPercent" Title="C%" Format="F1" />
+
+                <PropertyColumn Property="x => x.PointsPer100" Title="Pts/100" Format="F1" />
+                <PropertyColumn Property="x => x.AssistsPer100" Title="Ast/100" Format="F1" />
+                <PropertyColumn Property="x => x.OffensiveReboundsPer100" Title="OReb/100" Format="F1" />
+                <PropertyColumn Property="x => x.DefensiveReboundsPer100" Title="DReb/100" Format="F1" />
+                <PropertyColumn Property="x => x.BlocksPer100" Title="Blk/100" Format="F1" />
+                <PropertyColumn Property="x => x.StealsPer100" Title="Stl/100" Format="F1" />
+                <PropertyColumn Property="x => x.TurnoversPer100" Title="TO/100" Format="F1" />
+                <PropertyColumn Property="x => x.FreeThrowMakesPer100" Title="FTM/100" Format="F1" />
+                <PropertyColumn Property="x => x.FreeThrowAttemptsPer100" Title="FTA/100" Format="F1" />
+                <PropertyColumn Property="x => x.PersonalFoulsPer100" Title="PF/100" Format="F1" />
+
+                <PropertyColumn Property="x => x.Shot_0To3_AttemptPercent" Title="0-3 Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_0To3_MakePercent" Title="0-3 Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_3To10_AttemptPercent" Title="3-10 Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_3To10_MakePercent" Title="3-10 Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_10To16_AttemptPercent" Title="10-16 Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_10To16_MakePercent" Title="10-16 Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_16To3Pt_AttemptPercent" Title="16-3pt Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_16To3Pt_MakePercent" Title="16-3Pt Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_3Pt_AttemptPercent" Title="3pt Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_3Pt_MakePercent" Title="3pt Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_Corner_3PtOf3s_AttemptPercent" Title="Cn3 Att%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_Corner_3Pt_MakePercent" Title="Cn3 Mk%" Format="F2" />
+                <PropertyColumn Property="x => x.Shot_Dunk_AttemptPercent" Title="Dnk Att%" Format="F2" />
+
                 <PropertyColumn Property="x => x.Similarity" Title="Score" Format="F1" StickyRight="true"/>
             </Columns>
             <PagerContent>

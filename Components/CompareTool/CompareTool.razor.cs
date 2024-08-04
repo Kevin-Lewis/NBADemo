@@ -13,6 +13,10 @@ namespace NBADemo.Components.CompareTool
         ApplicationDbContext DbContext { get; set; }
         public List<PlayerSeasonInfo> PlayerSeasonInfo { get; set; }
         public Dictionary<short, PlayerCareerInfo> PlayerCareerInfo { get; set; }
+        public Dictionary<string, PlayerPer100Stats> PlayerPer100Stats { get; set; }
+        public Dictionary<string, PlayerPositionBreakdown> PlayerPositionBreakdown { get; set; }
+        public Dictionary<string, PlayerShotLocation> PlayerShotLocation { get; set; }
+        public Dictionary<string, PlayerShotSuccess> PlayerShotSuccess { get; set; }
 
         public List<CompareToolRow> CompareToolRows { get; set; }
 
@@ -54,12 +58,24 @@ namespace NBADemo.Components.CompareTool
             }
         }
 
+        public bool AreAllWeightValuesCorrect
+        {
+            get
+            {
+                return PrimaryWeights.Equals100 && ShotLocationWeights.Equals100 && ShotSuccessWeights.Equals100 && PositionWeights.Equals100 && Per100StatWeights.Equals100;
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
             InitializeWeights();
 
             PlayerSeasonInfo = await GetProcessedPlayerSeasonInfo();
             PlayerCareerInfo = await DbContext.PlayerCareerInfo.ToDictionaryAsync(x => x.PlayerId, x => x);
+            PlayerPer100Stats = await GetProcessedPlayerPer100Stats();
+            PlayerPositionBreakdown = await GetProcessedPlayerPositionBreakdown();
+            PlayerShotLocation = await GetProcessedPlayerShotLocation();
+            PlayerShotSuccess = await GetProcessedPlayerShotSuccess();
 
             BuildCompareToolRows();
         }
@@ -81,9 +97,21 @@ namespace NBADemo.Components.CompareTool
                 PlayerCareerInfo ci;
                 PlayerCareerInfo.TryGetValue((short)item.PlayerId, out ci);
 
-                if (ci is not null && ci.Height is not null && ci.Weight is not null)
+                PlayerPositionBreakdown pb;
+                PlayerPositionBreakdown.TryGetValue($"{item.PlayerId}:{item.SeasonId}", out pb);
+
+                PlayerPer100Stats per100;
+                PlayerPer100Stats.TryGetValue($"{item.PlayerId}:{item.SeasonId}", out per100);
+
+                PlayerShotLocation sl;
+                PlayerShotLocation.TryGetValue($"{item.PlayerId}:{item.SeasonId}", out sl);
+
+                PlayerShotSuccess ss;
+                PlayerShotSuccess.TryGetValue($"{item.PlayerId}:{item.SeasonId}", out ss);
+
+                if (ci is not null && pb is not null && ss is not null && sl is not null && per100 is not null && ci.Height is not null && ci.Weight is not null)
                 {
-                    var row = new CompareToolRow(item, ci);
+                    var row = new CompareToolRow(item, ci, per100, pb, ss, sl);
                     CompareToolRows.Add(row);
                 }
             }
@@ -106,6 +134,78 @@ namespace NBADemo.Components.CompareTool
                     return g.First();
                 })
                 .ToList();
+        }
+
+        private async Task<Dictionary<string, PlayerPer100Stats>> GetProcessedPlayerPer100Stats()
+        {
+            var playerPer100Stats = await DbContext.PlayerPer100Stats.ToListAsync();
+            return playerPer100Stats
+                .GroupBy(p => new { p.PlayerId, p.SeasonId })
+                .Select(g =>
+                {
+                    var totRow = g.FirstOrDefault(p => p.Team == "TOT");
+                    if (totRow != null)
+                    {
+                        totRow.Team = string.Join("/", g.Where(p => p.Team != "TOT").Select(p => p.Team));
+                        return totRow;
+                    }
+                    return g.First();
+                })
+                .ToDictionary(x => $"{x.PlayerId}:{x.SeasonId}", x => x);
+        }
+
+        private async Task<Dictionary<string, PlayerPositionBreakdown>> GetProcessedPlayerPositionBreakdown()
+        {
+            var playerPositionBreakdown = await DbContext.PlayerPositionBreakdown.ToListAsync();
+            return playerPositionBreakdown
+                .GroupBy(p => new { p.PlayerId, p.SeasonId })
+                .Select(g =>
+                {
+                    var totRow = g.FirstOrDefault(p => p.Team == "TOT");
+                    if (totRow != null)
+                    {
+                        totRow.Team = string.Join("/", g.Where(p => p.Team != "TOT").Select(p => p.Team));
+                        return totRow;
+                    }
+                    return g.First();
+                })
+                .ToDictionary(x => $"{x.PlayerId}:{x.SeasonId}", x => x);
+        }
+
+        private async Task<Dictionary<string, PlayerShotLocation>> GetProcessedPlayerShotLocation()
+        {
+            var data = await DbContext.PlayerShotLocation.ToListAsync();
+            return data
+                .GroupBy(p => new { p.PlayerId, p.SeasonId })
+                .Select(g =>
+                {
+                    var totRow = g.FirstOrDefault(p => p.Team == "TOT");
+                    if (totRow != null)
+                    {
+                        totRow.Team = string.Join("/", g.Where(p => p.Team != "TOT").Select(p => p.Team));
+                        return totRow;
+                    }
+                    return g.First();
+                })
+                .ToDictionary(x => $"{x.PlayerId}:{x.SeasonId}", x => x);
+        }
+
+        private async Task<Dictionary<string, PlayerShotSuccess>> GetProcessedPlayerShotSuccess()
+        {
+            var data = await DbContext.PlayerShotSuccess.ToListAsync();
+            return data
+                .GroupBy(p => new { p.PlayerId, p.SeasonId })
+                .Select(g =>
+                {
+                    var totRow = g.FirstOrDefault(p => p.Team == "TOT");
+                    if (totRow != null)
+                    {
+                        totRow.Team = string.Join("/", g.Where(p => p.Team != "TOT").Select(p => p.Team));
+                        return totRow;
+                    }
+                    return g.First();
+                })
+                .ToDictionary(x => $"{x.PlayerId}:{x.SeasonId}", x => x);
         }
 
         private Task OpenShotSuccessWeights()

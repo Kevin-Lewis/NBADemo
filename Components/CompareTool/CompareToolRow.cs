@@ -5,7 +5,7 @@ namespace NBADemo.Components.CompareTool
 {   
     public class CompareToolRow
     {
-        public CompareToolRow(PlayerSeasonInfo si, PlayerCareerInfo ci)
+        public CompareToolRow(PlayerSeasonInfo si, PlayerCareerInfo ci, PlayerPer100Stats per100, PlayerPositionBreakdown pb, PlayerShotSuccess ss, PlayerShotLocation sl)
         {
             PlayerId = si.PlayerId;
             PlayerName = si.PlayerName;
@@ -16,6 +16,38 @@ namespace NBADemo.Components.CompareTool
             Height = ci.Height;
             Weight = ci.Weight;
             FirstSeason = ci.FirstSeason;
+
+            PGPercent = pb.PGPercent ?? 0;
+            SGPercent = pb.SGPercent ?? 0;
+            SFPercent = pb.SFPercent ?? 0;
+            PFPercent = pb.PFPercent ?? 0;
+            CPercent = pb.CPercent ?? 0;
+
+            PointsPer100 = per100.Points;
+            AssistsPer100 = per100.Assists;
+            OffensiveReboundsPer100 = per100.OffensiveRebounds;
+            DefensiveReboundsPer100 = per100.DefensiveRebounds;
+            BlocksPer100 = per100.Blocks;
+            StealsPer100 = per100.Steals;
+            TurnoversPer100 = per100.Turnovers;
+            FreeThrowMakesPer100 = per100.FreeThrowMakes;
+            FreeThrowAttemptsPer100 = per100.FreeThrowAttempts;
+            PersonalFoulsPer100 = per100.PersonalFouls;
+
+            Shot_0To3_AttemptPercent = sl.Shot_0To3;
+            Shot_3To10_AttemptPercent = sl.Shot_3To10;
+            Shot_10To16_AttemptPercent = sl.Shot_10To16;
+            Shot_16To3Pt_AttemptPercent = sl.Shot_16To3Pt;
+            Shot_3Pt_AttemptPercent = sl.Shot_3Pt;
+            Shot_Corner_3PtOf3s_AttemptPercent = sl.Shot_Corner_3PtOf3s;
+            Shot_Dunk_AttemptPercent = sl.Shot_Dunk;
+
+            Shot_0To3_MakePercent = ss.Shot_0To3;
+            Shot_3To10_MakePercent = ss.Shot_3To10;
+            Shot_10To16_MakePercent = ss.Shot_10To16;
+            Shot_16To3Pt_MakePercent = ss.Shot_16To3Pt;
+            Shot_3Pt_MakePercent = ss.Shot_3Pt;
+            Shot_Corner_3Pt_MakePercent = ss.Shot_Corner_3Pt;
         }
 
         public double? Similarity { get; set; }
@@ -28,6 +60,39 @@ namespace NBADemo.Components.CompareTool
         public double? Height { get; set; }
         public double? Weight { get; set; }
         public short? FirstSeason { get; set; }
+
+        public double? PGPercent { get; set; }
+        public double? SGPercent { get; set; }
+        public double? SFPercent { get; set; }
+        public double? PFPercent { get; set; }
+        public double? CPercent { get; set; }
+
+        public double? PointsPer100 { get; set; }
+        public double? AssistsPer100 { get; set; }
+        public double? OffensiveReboundsPer100 { get; set; }
+        public double? DefensiveReboundsPer100 { get; set; }
+        public double? BlocksPer100 { get; set; }
+        public double? StealsPer100 { get; set; }
+        public double? TurnoversPer100 { get; set; }
+        public double? FreeThrowAttemptsPer100 { get; set; }
+        public double? FreeThrowMakesPer100 { get; set; }
+        public double? PersonalFoulsPer100 { get; set; }
+
+        public double? Shot_0To3_AttemptPercent { get; set; }
+        public double? Shot_3To10_AttemptPercent { get; set; }
+        public double? Shot_10To16_AttemptPercent { get; set; }
+        public double? Shot_16To3Pt_AttemptPercent { get; set; }
+        public double? Shot_3Pt_AttemptPercent { get; set; }
+        public double? Shot_Corner_3PtOf3s_AttemptPercent { get; set; }
+        public double? Shot_Dunk_AttemptPercent { get; set; }
+
+        public double? Shot_0To3_MakePercent { get; set; }
+        public double? Shot_3To10_MakePercent { get; set; }
+        public double? Shot_10To16_MakePercent { get; set; }
+        public double? Shot_16To3Pt_MakePercent { get; set; }
+        public double? Shot_3Pt_MakePercent { get; set; }
+        public double? Shot_Corner_3Pt_MakePercent { get; set; }
+
         public string HeightText
         {
             get

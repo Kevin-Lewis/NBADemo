@@ -1,0 +1,58 @@
+﻿<MudDialog>
+    <TitleContent>
+        Shot Location Weights
+    </TitleContent>
+    <DialogContent>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGARate_0_3" Variant="Variant.Filled">0-3ft: @FGARate_0_3</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@FGARate_16_3PT" Variant="Variant.Filled">16ft-3pt: @FGARate_16_3PT</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@FGARate_Dunks" Variant="Variant.Filled">16ft-3pt: @FGARate_Dunks</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGARate_3_10" Variant="Variant.Filled">3-10ft: @FGARate_3_10</MudSlider>
+                    <br><br />
+                    <MudSlider @bind-Value="@FGARate_3PT" Variant="Variant.Filled">3pt: @FGARate_3PT</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGARate_10_16" Variant="Variant.Filled">10-16ft: @FGARate_10_16</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@FGA3PTRateCorner" Variant="Variant.Filled">Corner 3pt: @FGA3PTRateCorner</MudSlider>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public int FGARate_0_3 { get; set; }
+    [Parameter]
+    public int FGARate_3_10 { get; set; }
+    [Parameter]
+    public int FGARate_10_16 { get; set; }
+    [Parameter]
+    public int FGARate_16_3PT { get; set; }
+    [Parameter]
+    public int FGARate_3PT { get; set; }
+    [Parameter]
+    public int FGA3PTRateCorner { get; set; }
+    [Parameter]
+    public int FGARate_Dunks { get; set; }
+    [Parameter]
+    public EventCallback<(int, int, int, int, int, int, int)> OnValuesUpdated { get; set; }
+    [CascadingParameter]
+    private MudDialogInstance ShotLocationDialogInstance { get; set; }
+
+    private void Submit()
+    {
+        OnValuesUpdated.InvokeAsync((FGARate_0_3, FGARate_3_10, FGARate_10_16, FGARate_16_3PT, FGARate_3PT, FGA3PTRateCorner, FGARate_Dunks));
+        ShotLocationDialogInstance.Close(DialogResult.Ok(true));
+    }
+}

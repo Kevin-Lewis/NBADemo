@@ -1,0 +1,56 @@
+﻿@inject IDialogService DialogService
+
+<div class="row">
+    <div class="col-12 col-md-6 col-lg-3 text-center">
+        <MudSlider @bind-Value="@PrimaryWeights.ShotSuccess" Variant="Variant.Filled">Shot Success: @PrimaryWeights.ShotSuccess</MudSlider>
+        <br />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotSuccessWeights" Variant="Variant.Filled" Color="ShotSuccessIconColor"></MudIconButton>
+        <br /><br />        
+        <MudSlider @bind-Value="@PrimaryWeights.Height" Variant="Variant.Filled">Height: @PrimaryWeights.Height</MudSlider>        
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 text-center">      
+        <MudSlider @bind-Value="@PrimaryWeights.ShotLocation" Variant="Variant.Filled">Shot Location: @PrimaryWeights.ShotLocation</MudSlider>
+        <br />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotLocationWeights" Variant="Variant.Filled" Color="ShotLocationIconColor"></MudIconButton>
+        <br /><br />        
+        <MudSlider @bind-Value="@PrimaryWeights.Weight" Variant="Variant.Filled">Weight: @PrimaryWeights.Weight</MudSlider>        
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 text-center">
+        <MudSlider @bind-Value="@PrimaryWeights.Position" Variant="Variant.Filled">Position: @PrimaryWeights.Position</MudSlider>     
+        <br />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPositionWeights" Variant="Variant.Filled" Color="PositionIconColor"></MudIconButton>
+        <br /><br />
+        <MudSlider @bind-Value="@PrimaryWeights.Usage" Variant="Variant.Filled">Usage: @PrimaryWeights.Usage</MudSlider>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 text-center">
+        <MudSlider @bind-Value="@PrimaryWeights.Per100Stats" Variant="Variant.Filled">Per 100 Stats: @PrimaryWeights.Per100Stats</MudSlider>  
+        <br />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPer100Weights" Variant="Variant.Filled" Color="Per100IconColor"></MudIconButton>
+        <br /><br />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <MudButton Disabled="@(!PrimaryWeights.Equals100)" Variant="Variant.Filled">Calculate @PrimaryWeights.Total/100</MudButton>
+        <br /><br />
+        <MudDataGrid Items="@CompareToolRows" SortMode="SortMode.Multiple" RowsPerPage="15">
+            <Columns>
+                <PropertyColumn Property="x => x.PlayerName" Title="Player" />
+                <PropertyColumn Property="x => x.Team" Title="Team" />
+                <PropertyColumn Property="x => x.Season" Title="Season" />
+                <PropertyColumn Property="x => x.Age" Title="Age" />
+                <PropertyColumn Property="x => x.Experience" Title="Exp" />
+                <TemplateColumn Sortable="true" SortBy="x => x.Height" Title="Ht">
+                    <CellTemplate>
+                        <span>@context.Item.HeightText</span>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.Weight" Title="Wt" Format="F0" />
+                <PropertyColumn Property="x => x.Similarity" Title="Score" Format="F1" StickyRight="true"/>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager />
+            </PagerContent>
+        </MudDataGrid>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿<MudDialog>
+    <TitleContent>
+        Shot Percentage Weights
+    </TitleContent>
+    <DialogContent>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGASuccess_0_3" Variant="Variant.Filled">0-3ft: @FGASuccess_0_3</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@FGASuccess_16_3PT" Variant="Variant.Filled">16ft-3pt: @FGASuccess_16_3PT</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGASuccess_3_10" Variant="Variant.Filled">3-10ft: @FGASuccess_3_10</MudSlider>
+                    <br><br />
+                    <MudSlider @bind-Value="@FGASuccess_3PT" Variant="Variant.Filled">3pt: @FGASuccess_3PT</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@FGASuccess_10_16" Variant="Variant.Filled">10-16ft: @FGASuccess_10_16</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@FGA3PTSuccessCorner" Variant="Variant.Filled">Corner 3pt: @FGA3PTSuccessCorner</MudSlider>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public int FGASuccess_0_3 { get; set; }
+    [Parameter]
+    public int FGASuccess_3_10 { get; set; }
+    [Parameter]
+    public int FGASuccess_10_16 { get; set; }
+    [Parameter]
+    public int FGASuccess_16_3PT { get; set; }
+    [Parameter]
+    public int FGASuccess_3PT { get; set; }
+    [Parameter]
+    public int FGA3PTSuccessCorner { get; set; }
+    [Parameter]
+    public EventCallback<(int, int, int, int, int, int)> OnValuesUpdated { get; set; }
+    [CascadingParameter]
+    private MudDialogInstance ShotSuccessDialogInstance { get; set; }
+
+    private void Submit()
+    {
+        OnValuesUpdated.InvokeAsync((FGASuccess_0_3, FGASuccess_3_10, FGASuccess_10_16, FGASuccess_16_3PT, FGASuccess_3PT, FGA3PTSuccessCorner));
+        ShotSuccessDialogInstance.Close(DialogResult.Ok(true));
+    }
+}

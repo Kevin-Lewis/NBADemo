@@ -1,0 +1,51 @@
+﻿<MudDialog>
+    <TitleContent>
+        Percentage of Minutes By Position Weights
+    </TitleContent>
+    <DialogContent>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@PGPercent" Variant="Variant.Filled">PG: @PGPercent</MudSlider>
+                    <br /><br />
+                    <MudSlider @bind-Value="@PFPercent" Variant="Variant.Filled">PF: @PFPercent</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@SGPercent" Variant="Variant.Filled">SG: @SGPercent</MudSlider>
+                    <br><br />
+                    <MudSlider @bind-Value="@CPercent" Variant="Variant.Filled">C: @CPercent</MudSlider>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <MudSlider @bind-Value="@SFPercent" Variant="Variant.Filled">SF: @SFPercent</MudSlider>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public int PGPercent { get; set; }
+    [Parameter]
+    public int SGPercent { get; set; }
+    [Parameter]
+    public int SFPercent { get; set; }
+    [Parameter]
+    public int PFPercent { get; set; }
+    [Parameter]
+    public int CPercent { get; set; }
+    [Parameter]
+    public EventCallback<(int, int, int, int, int)> OnValuesUpdated { get; set; }
+    [CascadingParameter]
+    private MudDialogInstance PositionDialogInstance { get; set; }
+
+    private void Submit()
+    {
+        OnValuesUpdated.InvokeAsync((PGPercent, SGPercent, SFPercent, PFPercent, CPercent));
+        PositionDialogInstance.Close(DialogResult.Ok(true));
+    }
+}

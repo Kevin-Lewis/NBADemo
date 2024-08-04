@@ -1,4 +1,4 @@
-﻿namespace NBADemo.Components.CompareTool
+﻿namespace NBADemo.Components.CompareTool.Weights
 {
     public class Per100StatWeights
     {

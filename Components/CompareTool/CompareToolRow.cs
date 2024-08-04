@@ -13,11 +13,12 @@ namespace NBADemo.Components.CompareTool
             Team = si.Team;
             Age = si.Age;
             Experience = si.Experience;
-            Height = ci.Height;
-            Weight = ci.Weight;
+            Height = ci.Height ?? 0;
+            Weight = ci.Weight ?? 0;
             FirstSeason = ci.FirstSeason;
 
-            Minutes = pb.Minutes;
+            Minutes = pb.Minutes ?? 0;
+
             PGPercent = pb.PGPercent ?? 0;
             SGPercent = pb.SGPercent ?? 0;
             SFPercent = pb.SFPercent ?? 0;
@@ -49,6 +50,8 @@ namespace NBADemo.Components.CompareTool
             Shot_16To3Pt_MakePercent = ss.Shot_16To3Pt ?? 0;
             Shot_3Pt_MakePercent = ss.Shot_3Pt ?? 0;
             Shot_Corner_3Pt_MakePercent = ss.Shot_Corner_3Pt ?? 0;
+
+            Usage = si.Usage ?? 0;
         }
 
         public double? Similarity { get; set; }
@@ -58,42 +61,44 @@ namespace NBADemo.Components.CompareTool
         public string Team { get; set; }
         public double? Age { get; set; }
         public byte? Experience { get; set; }
-        public double? Height { get; set; }
-        public double? Weight { get; set; }
+        public double Height { get; set; }
+        public double Weight { get; set; }
         public short? FirstSeason { get; set; }
 
-        public short? Minutes { get; set; }
-        public double? PGPercent { get; set; }
-        public double? SGPercent { get; set; }
-        public double? SFPercent { get; set; }
-        public double? PFPercent { get; set; }
-        public double? CPercent { get; set; }
+        public short Minutes { get; set; }
+        public double PGPercent { get; set; }
+        public double SGPercent { get; set; }
+        public double SFPercent { get; set; }
+        public double PFPercent { get; set; }
+        public double CPercent { get; set; }
 
-        public double? PointsPer100 { get; set; }
-        public double? AssistsPer100 { get; set; }
-        public double? OffensiveReboundsPer100 { get; set; }
-        public double? DefensiveReboundsPer100 { get; set; }
-        public double? BlocksPer100 { get; set; }
-        public double? StealsPer100 { get; set; }
-        public double? TurnoversPer100 { get; set; }
-        public double? FreeThrowAttemptsPer100 { get; set; }
-        public double? FreeThrowMakesPer100 { get; set; }
-        public double? PersonalFoulsPer100 { get; set; }
+        public double PointsPer100 { get; set; }
+        public double AssistsPer100 { get; set; }
+        public double OffensiveReboundsPer100 { get; set; }
+        public double DefensiveReboundsPer100 { get; set; }
+        public double BlocksPer100 { get; set; }
+        public double StealsPer100 { get; set; }
+        public double TurnoversPer100 { get; set; }
+        public double FreeThrowAttemptsPer100 { get; set; }
+        public double FreeThrowMakesPer100 { get; set; }
+        public double PersonalFoulsPer100 { get; set; }
 
-        public double? Shot_0To3_AttemptPercent { get; set; }
-        public double? Shot_3To10_AttemptPercent { get; set; }
-        public double? Shot_10To16_AttemptPercent { get; set; }
-        public double? Shot_16To3Pt_AttemptPercent { get; set; }
-        public double? Shot_3Pt_AttemptPercent { get; set; }
-        public double? Shot_Corner_3PtOf3s_AttemptPercent { get; set; }
-        public double? Shot_Dunk_AttemptPercent { get; set; }
+        public double Shot_0To3_AttemptPercent { get; set; }
+        public double Shot_3To10_AttemptPercent { get; set; }
+        public double Shot_10To16_AttemptPercent { get; set; }
+        public double Shot_16To3Pt_AttemptPercent { get; set; }
+        public double Shot_3Pt_AttemptPercent { get; set; }
+        public double Shot_Corner_3PtOf3s_AttemptPercent { get; set; }
+        public double Shot_Dunk_AttemptPercent { get; set; }
 
-        public double? Shot_0To3_MakePercent { get; set; }
-        public double? Shot_3To10_MakePercent { get; set; }
-        public double? Shot_10To16_MakePercent { get; set; }
-        public double? Shot_16To3Pt_MakePercent { get; set; }
-        public double? Shot_3Pt_MakePercent { get; set; }
-        public double? Shot_Corner_3Pt_MakePercent { get; set; }
+        public double Shot_0To3_MakePercent { get; set; }
+        public double Shot_3To10_MakePercent { get; set; }
+        public double Shot_10To16_MakePercent { get; set; }
+        public double Shot_16To3Pt_MakePercent { get; set; }
+        public double Shot_3Pt_MakePercent { get; set; }
+        public double Shot_Corner_3Pt_MakePercent { get; set; }
+
+        public double Usage { get; set; }
 
         public string HeightText
         {

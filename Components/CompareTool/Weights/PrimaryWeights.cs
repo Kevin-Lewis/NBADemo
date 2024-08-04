@@ -1,4 +1,4 @@
-﻿namespace NBADemo.Components.CompareTool
+﻿namespace NBADemo.Components.CompareTool.Weights
 {
     public class PrimaryWeights
     {
@@ -10,9 +10,9 @@
         public int Position { get; set; } = 16;
         public int Usage { get; set; } = 16;
 
-        public bool Equals100 
+        public bool Equals100
         {
-            get 
+            get
             {
                 return Height + Weight + ShotLocation + ShotSuccess + Per100Stats + Position + Usage == 100;
             }

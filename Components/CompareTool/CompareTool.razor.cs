@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using NBADemo.Components.CompareTool.Dialogs;
+using NBADemo.Components.CompareTool.Weights;
 using NBADemo.Data;
 using NBAShared;
 
@@ -111,7 +112,7 @@ namespace NBADemo.Components.CompareTool
                 PlayerShotSuccess ss;
                 PlayerShotSuccess.TryGetValue($"{item.PlayerId}:{item.SeasonId}", out ss);
 
-                if (ci is not null && pb is not null && ss is not null && sl is not null && per100 is not null && ci.Height is not null && ci.Weight is not null)
+                if (ci is not null && pb is not null && ss is not null && sl is not null && per100 is not null && ci.Height is not null && ci.Weight is not null && item.Usage is not null)
                 {
                     var row = new CompareToolRow(item, ci, per100, pb, ss, sl);
                     if (row.Minutes >= _minMinutes)

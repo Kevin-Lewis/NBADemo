@@ -20,6 +20,11 @@
                     <br /><br />
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 text-center" style="font-weight:bold;">
+                    <MudText Color="@(Equals100 ? Color.Success : Color.Error)">@(PGPercent + SGPercent + SFPercent + PFPercent + CPercent)/100</MudText>
+                </div>
+            </div>
         </div>
     </DialogContent>
     <DialogActions>
@@ -40,6 +45,15 @@
     public int CPercent { get; set; }
     [Parameter]
     public EventCallback<(int, int, int, int, int)> OnValuesUpdated { get; set; }
+
+    public bool Equals100
+    {
+        get
+        {
+            return PGPercent + SGPercent + SFPercent + PFPercent + CPercent == 100;
+        }
+    }
+
     [CascadingParameter]
     private MudDialogInstance PositionDialogInstance { get; set; }
 

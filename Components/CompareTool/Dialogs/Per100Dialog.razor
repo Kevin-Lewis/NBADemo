@@ -29,10 +29,15 @@
                     <MudSlider @bind-Value="@FTAPer100" Variant="Variant.Filled">Free Throws Attempted: @FTAPer100</MudSlider>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 text-center" style="font-weight:bold;">
+                    <MudText Color="@(Equals100 ? Color.Success : Color.Error)">@(PTSPer100 + ASTPer100 + ORBPer100 + DRBPer100 + TOVPer100 + FTAPer100 + FTPer100 + BLKPer100 + STLPer100 + PFPer100)/100</MudText>
+                </div>
+            </div>
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton OnClick="Submit">Ok</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -61,6 +66,14 @@
     public EventCallback<(int, int, int, int, int, int, int, int, int, int)> OnValuesUpdated { get; set; }
     [CascadingParameter]
     private MudDialogInstance Per100DialogInstance { get; set; }
+
+    public bool Equals100
+    {
+        get
+        {
+            return PTSPer100 + ASTPer100 + ORBPer100 + DRBPer100 + TOVPer100 + FTAPer100 + FTPer100 + BLKPer100 + STLPer100 + PFPer100 == 100;
+        }    
+    }
 
     private void Submit()
     {

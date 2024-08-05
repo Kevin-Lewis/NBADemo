@@ -21,6 +21,11 @@
                     <MudSlider @bind-Value="@FGA3PTSuccessCorner" Variant="Variant.Filled">Corner 3pt: @FGA3PTSuccessCorner</MudSlider>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 text-center" style="font-weight:bold;">
+                    <MudText Color="@(Equals100 ? Color.Success : Color.Error)">@(FGASuccess_0_3 + FGASuccess_3_10 + FGASuccess_10_16 + FGASuccess_16_3PT + FGASuccess_3PT + FGA3PTSuccessCorner)/100</MudText>
+                </div>
+            </div>
         </div>
     </DialogContent>
     <DialogActions>
@@ -43,6 +48,15 @@
     public int FGA3PTSuccessCorner { get; set; }
     [Parameter]
     public EventCallback<(int, int, int, int, int, int)> OnValuesUpdated { get; set; }
+
+    public bool Equals100
+    {
+        get
+        {
+            return FGASuccess_0_3 + FGASuccess_3_10 + FGASuccess_10_16 + FGASuccess_16_3PT + FGASuccess_3PT + FGA3PTSuccessCorner == 100;
+        }
+    }
+
     [CascadingParameter]
     private MudDialogInstance ShotSuccessDialogInstance { get; set; }
 

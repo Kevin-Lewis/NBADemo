@@ -67,7 +67,9 @@
                 </div>
             </div>           
             <br />
-            <MudButton OnClick="Calculate" Disabled="@(!AreAllWeightValuesCorrect)" Variant="Variant.Filled">Calculate @PrimaryWeights.Total/100</MudButton>
+            <MudButton OnClick="Calculate" Disabled="@(!AreAllWeightValuesCorrect)" Variant="Variant.Filled">Calculate</MudButton>
+            <br />
+            <MudText Color="@WeightProgressColor">@PrimaryWeights.Total/100</MudText>
             <br /><br />
             <MudDataGrid Items="@CompareToolRows" SortMode="SortMode.None" RowsPerPage="15"
                          RowStyleFunc="@RowStyleFunc">

@@ -72,6 +72,14 @@ namespace NBADemo.Components.CompareTool
             }
         }
 
+        public Color WeightProgressColor
+        {
+            get
+            {
+                return PrimaryWeights.Equals100 ? Color.Success : Color.Error;
+            }
+        }
+
         public bool AreAllWeightValuesCorrect
         {
             get

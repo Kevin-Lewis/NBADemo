@@ -1,8 +1,8 @@
 ﻿@inject IDialogService DialogService
 @using NBAShared;
-
 @if(CompareToolRows?.Count > 0)
 {
+    <MudText Typo="Typo.h3" Color="Color.Secondary">Player Comparison Tool</MudText>
     <div class="row">
         <div class="col-12 col-lg-4"></div>
         <div class="col-12 col-lg-4">
@@ -17,7 +17,8 @@
         </div>
         <div class="col-12 col-lg-4"></div>
     </div>
-    <div class="row">
+    <br /><br />
+    <div class="row">       
         <div class="col-12 col-md-6 col-lg-3 text-center">
             <MudSlider @bind-Value="@PrimaryWeights.ShotSuccess" Variant="Variant.Filled">Shot Success: @PrimaryWeights.ShotSuccess</MudSlider>
             <br />
@@ -295,7 +296,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_0To3_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_0To3_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -306,7 +307,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_0To3_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_0To3_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -317,7 +318,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_3To10_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_3To10_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -328,7 +329,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_3To10_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_3To10_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -339,7 +340,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_10To16_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_10To16_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -350,7 +351,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_10To16_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_10To16_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -361,7 +362,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_16To3Pt_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_16To3Pt_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -372,7 +373,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_16To3Pt_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_16To3Pt_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -383,7 +384,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_3Pt_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_3Pt_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -394,7 +395,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_3Pt_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_3Pt_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -405,7 +406,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_Corner_3PtOf3s_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_Corner_3PtOf3s_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -416,7 +417,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_Corner_3Pt_MakePercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_Corner_3Pt_MakePercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -427,7 +428,7 @@
                             </MudTooltip>
                         </HeaderTemplate>
                         <CellTemplate>
-                            <span>@context.Item.Shot_Dunk_AttemptPercent.ToString("F2")</span>
+                            <span>@context.Item.Shot_Dunk_AttemptPercent.ToString("P1")</span>
                         </CellTemplate>
                     </TemplateColumn>
 
@@ -468,8 +469,9 @@ else
 {
     <div class="row">
         <div class="col-12 text-center">
-            <br /><br /><br /><br />
+            <br /><br /><br /><br />            
             <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+            <MudText>Loading data...</MudText>
         </div>
     </div>
 }

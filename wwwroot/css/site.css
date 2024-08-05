@@ -30,3 +30,28 @@
 .text-center {
     text-align: center !important;
 }
+
+.mud-data-grid th {
+    position: relative !important;
+    white-space: nowrap !important;
+    width: auto !important;
+}
+
+.mud-table-cell {
+    padding: 5px !important;
+}
+
+.mud-data-grid .mud-table-cell.sticky-right {
+    position: sticky !important;
+}
+
+.mud-select .mud-select-input {
+    cursor: pointer;
+    padding: 2px !important;
+}
+
+.mud-card-content {
+    flex-grow: 1;
+    padding: 10px;
+    width: 90vw;
+}

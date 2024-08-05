@@ -1,92 +1,154 @@
 ﻿@inject IDialogService DialogService
+@using NBAShared;
 
-<div class="row">
-    <div class="col-12 col-md-6 col-lg-3 text-center">
-        <MudSlider @bind-Value="@PrimaryWeights.ShotSuccess" Variant="Variant.Filled">Shot Success: @PrimaryWeights.ShotSuccess</MudSlider>
-        <br />
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotSuccessWeights" Variant="Variant.Filled" Color="ShotSuccessIconColor"></MudIconButton>
-        <br /><br />        
-        <MudSlider @bind-Value="@PrimaryWeights.Height" Variant="Variant.Filled">Height: @PrimaryWeights.Height</MudSlider>        
+@if(CompareToolRows?.Count > 0)
+{
+    <div class="row">
+        <div class="col-12 col-lg-4"></div>
+        <div class="col-12 col-lg-4">
+            @if (BaseCompareToolRows?.Count > 0)
+            {
+                <MudAutocomplete T="CompareToolRow" Label="Player Select" SearchFunc="@PlayerSearch" ToStringFunc="@DisplayPlayerInSearch"
+                                 ResetValueOnEmptyText="true" Value="_selectedPlayer" ValueChanged="OnPlayerChange"
+                                 CoerceText="true" CoerceValue="true" MaxItems="25"
+                                 AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+
+            }
+        </div>
+        <div class="col-12 col-lg-4"></div>
     </div>
-    <div class="col-12 col-md-6 col-lg-3 text-center">      
-        <MudSlider @bind-Value="@PrimaryWeights.ShotLocation" Variant="Variant.Filled">Shot Location: @PrimaryWeights.ShotLocation</MudSlider>
-        <br />
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotLocationWeights" Variant="Variant.Filled" Color="ShotLocationIconColor"></MudIconButton>
-        <br /><br />        
-        <MudSlider @bind-Value="@PrimaryWeights.Weight" Variant="Variant.Filled">Weight: @PrimaryWeights.Weight</MudSlider>        
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3 text-center">
+            <MudSlider @bind-Value="@PrimaryWeights.ShotSuccess" Variant="Variant.Filled">Shot Success: @PrimaryWeights.ShotSuccess</MudSlider>
+            <br />
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotSuccessWeights" Variant="Variant.Filled" Color="ShotSuccessIconColor"></MudIconButton>
+            <br /><br />
+            <MudSlider @bind-Value="@PrimaryWeights.Height" Variant="Variant.Filled">Height: @PrimaryWeights.Height</MudSlider>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 text-center">
+            <MudSlider @bind-Value="@PrimaryWeights.ShotLocation" Variant="Variant.Filled">Shot Location: @PrimaryWeights.ShotLocation</MudSlider>
+            <br />
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenShotLocationWeights" Variant="Variant.Filled" Color="ShotLocationIconColor"></MudIconButton>
+            <br /><br />
+            <MudSlider @bind-Value="@PrimaryWeights.Weight" Variant="Variant.Filled">Weight: @PrimaryWeights.Weight</MudSlider>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 text-center">
+            <MudSlider @bind-Value="@PrimaryWeights.Position" Variant="Variant.Filled">Position: @PrimaryWeights.Position</MudSlider>
+            <br />
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPositionWeights" Variant="Variant.Filled" Color="PositionIconColor"></MudIconButton>
+            <br /><br />
+            <MudSlider @bind-Value="@PrimaryWeights.Usage" Variant="Variant.Filled">Usage: @PrimaryWeights.Usage</MudSlider>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 text-center">
+            <MudSlider @bind-Value="@PrimaryWeights.Per100Stats" Variant="Variant.Filled">Per 100 Stats: @PrimaryWeights.Per100Stats</MudSlider>
+            <br />
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPer100Weights" Variant="Variant.Filled" Color="Per100IconColor"></MudIconButton>
+            <br /><br />
+        </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-3 text-center">
-        <MudSlider @bind-Value="@PrimaryWeights.Position" Variant="Variant.Filled">Position: @PrimaryWeights.Position</MudSlider>     
-        <br />
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPositionWeights" Variant="Variant.Filled" Color="PositionIconColor"></MudIconButton>
-        <br /><br />
-        <MudSlider @bind-Value="@PrimaryWeights.Usage" Variant="Variant.Filled">Usage: @PrimaryWeights.Usage</MudSlider>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-lg-4"></div>
+                    <div class="col-12 col-lg-4">
+                        <div class="text-center" style="width:50%; display:inline-block">
+                            <MudSelect T="int" Label="Experience" @bind-Value="@_selectedExperience" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" ToStringFunc="@DisplayExperience">
+                                @{
+                                    for (int i = 0; i < 23; i++)
+                                    {
+                                        <MudSelectItem T="int" Value="i" />
+                                    }
+                                }
+                            </MudSelect>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4"></div>
+                </div>
+            </div>           
+            <br />
+            <MudButton OnClick="Calculate" Disabled="@(!AreAllWeightValuesCorrect)" Variant="Variant.Filled">Calculate @PrimaryWeights.Total/100</MudButton>
+            <br /><br />
+            <MudDataGrid Items="@CompareToolRows" SortMode="SortMode.None" RowsPerPage="15"
+                         RowStyleFunc="@RowStyleFunc">
+                <Columns>
+                    <HierarchyColumn T="CompareToolRow" />
+                    <PropertyColumn Property="x => x.PlayerName" Title="Player" />
+                    <PropertyColumn Property="x => x.Team" Title="Team" />
+                    <PropertyColumn Property="x => x.Season" Title="Season" />
+                    <PropertyColumn Property="x => x.Age" Title="Age" />
+                    <PropertyColumn Property="x => x.Experience" Title="Exp" />
+                    <TemplateColumn Sortable="true" SortBy="x => x.Height" Title="Ht">
+                        <CellTemplate>
+                            <span>@context.Item.HeightText</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+                    <PropertyColumn Property="x => x.Weight" Title="Wt" Format="F0" />
+
+                    <PropertyColumn Property="x => x.Minutes" Title="Mins" Format="F0" />
+
+                    <PropertyColumn Property="x => x.PGPercent" Title="PG%" Format="F1" />
+                    <PropertyColumn Property="x => x.SGPercent" Title="SG%" Format="F1" />
+                    <PropertyColumn Property="x => x.SFPercent" Title="SF%" Format="F1" />
+                    <PropertyColumn Property="x => x.PFPercent" Title="PF%" Format="F1" />
+                    <PropertyColumn Property="x => x.CPercent" Title="C%" Format="F1" />
+
+                    <PropertyColumn Property="x => x.PointsPer100" Title="Pts/100" Format="F1" />
+                    <PropertyColumn Property="x => x.AssistsPer100" Title="Ast/100" Format="F1" />
+                    <PropertyColumn Property="x => x.OffensiveReboundsPer100" Title="OReb/100" Format="F1" />
+                    <PropertyColumn Property="x => x.DefensiveReboundsPer100" Title="DReb/100" Format="F1" />
+                    <PropertyColumn Property="x => x.BlocksPer100" Title="Blk/100" Format="F1" />
+                    <PropertyColumn Property="x => x.StealsPer100" Title="Stl/100" Format="F1" />
+                    <PropertyColumn Property="x => x.TurnoversPer100" Title="TO/100" Format="F1" />
+                    <PropertyColumn Property="x => x.FreeThrowMakesPer100" Title="FTM/100" Format="F1" />
+                    <PropertyColumn Property="x => x.FreeThrowAttemptsPer100" Title="FTA/100" Format="F1" />
+                    <PropertyColumn Property="x => x.PersonalFoulsPer100" Title="PF/100" Format="F1" />
+
+                    <PropertyColumn Property="x => x.Shot_0To3_AttemptPercent" Title="0-3 Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_0To3_MakePercent" Title="0-3 Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_3To10_AttemptPercent" Title="3-10 Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_3To10_MakePercent" Title="3-10 Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_10To16_AttemptPercent" Title="10-16 Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_10To16_MakePercent" Title="10-16 Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_16To3Pt_AttemptPercent" Title="16-3pt Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_16To3Pt_MakePercent" Title="16-3Pt Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_3Pt_AttemptPercent" Title="3pt Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_3Pt_MakePercent" Title="3pt Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_Corner_3PtOf3s_AttemptPercent" Title="Cn3 Att%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_Corner_3Pt_MakePercent" Title="Cn3 Mk%" Format="F2" />
+                    <PropertyColumn Property="x => x.Shot_Dunk_AttemptPercent" Title="Dnk Att%" Format="F2" />
+
+                    <PropertyColumn Property="x => x.Usage" Title="Usg%" Format="F2" />
+
+                    <PropertyColumn Property="x => x.Similarity" Title="Score" Format="F1" StickyRight="true" CellStyleFunc="@SimilarityStyleFunc" />
+                </Columns>
+                <ChildRowContent>
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@context.Item.PlayerName</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>
+                                <AIReport PlayerName="@context.Item.PlayerName" Season="@context.Item.Season" />
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </ChildRowContent>
+                <PagerContent>
+                    <MudDataGridPager />
+                </PagerContent>
+            </MudDataGrid>
+        </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-3 text-center">
-        <MudSlider @bind-Value="@PrimaryWeights.Per100Stats" Variant="Variant.Filled">Per 100 Stats: @PrimaryWeights.Per100Stats</MudSlider>  
-        <br />
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" @onclick="OpenPer100Weights" Variant="Variant.Filled" Color="Per100IconColor"></MudIconButton>
-        <br /><br />
+}
+else
+{
+    <div class="row">
+        <div class="col-12 text-center">
+            <br /><br /><br /><br />
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12 text-center">
-        <MudButton Disabled="@(!AreAllWeightValuesCorrect)" Variant="Variant.Filled">Calculate @PrimaryWeights.Total/100</MudButton>
-        <br /><br />
-        <MudDataGrid Items="@CompareToolRows" SortMode="SortMode.Multiple" RowsPerPage="15">
-            <Columns>
-                <PropertyColumn Property="x => x.PlayerName" Title="Player" />
-                <PropertyColumn Property="x => x.Team" Title="Team" />
-                <PropertyColumn Property="x => x.Season" Title="Season" />
-                <PropertyColumn Property="x => x.Age" Title="Age" />
-                <PropertyColumn Property="x => x.Experience" Title="Exp" />
-                <TemplateColumn Sortable="true" SortBy="x => x.Height" Title="Ht">
-                    <CellTemplate>
-                        <span>@context.Item.HeightText</span>
-                    </CellTemplate>
-                </TemplateColumn>
-                <PropertyColumn Property="x => x.Weight" Title="Wt" Format="F0" />
-
-                <PropertyColumn Property="x => x.Minutes" Title="Mins" Format="F0" />
-
-                <PropertyColumn Property="x => x.PGPercent" Title="PG%" Format="F1" />
-                <PropertyColumn Property="x => x.SGPercent" Title="SG%" Format="F1" />
-                <PropertyColumn Property="x => x.SFPercent" Title="SF%" Format="F1" />
-                <PropertyColumn Property="x => x.PFPercent" Title="PF%" Format="F1" />
-                <PropertyColumn Property="x => x.CPercent" Title="C%" Format="F1" />
-
-                <PropertyColumn Property="x => x.PointsPer100" Title="Pts/100" Format="F1" />
-                <PropertyColumn Property="x => x.AssistsPer100" Title="Ast/100" Format="F1" />
-                <PropertyColumn Property="x => x.OffensiveReboundsPer100" Title="OReb/100" Format="F1" />
-                <PropertyColumn Property="x => x.DefensiveReboundsPer100" Title="DReb/100" Format="F1" />
-                <PropertyColumn Property="x => x.BlocksPer100" Title="Blk/100" Format="F1" />
-                <PropertyColumn Property="x => x.StealsPer100" Title="Stl/100" Format="F1" />
-                <PropertyColumn Property="x => x.TurnoversPer100" Title="TO/100" Format="F1" />
-                <PropertyColumn Property="x => x.FreeThrowMakesPer100" Title="FTM/100" Format="F1" />
-                <PropertyColumn Property="x => x.FreeThrowAttemptsPer100" Title="FTA/100" Format="F1" />
-                <PropertyColumn Property="x => x.PersonalFoulsPer100" Title="PF/100" Format="F1" />
-
-                <PropertyColumn Property="x => x.Shot_0To3_AttemptPercent" Title="0-3 Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_0To3_MakePercent" Title="0-3 Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_3To10_AttemptPercent" Title="3-10 Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_3To10_MakePercent" Title="3-10 Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_10To16_AttemptPercent" Title="10-16 Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_10To16_MakePercent" Title="10-16 Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_16To3Pt_AttemptPercent" Title="16-3pt Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_16To3Pt_MakePercent" Title="16-3Pt Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_3Pt_AttemptPercent" Title="3pt Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_3Pt_MakePercent" Title="3pt Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_Corner_3PtOf3s_AttemptPercent" Title="Cn3 Att%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_Corner_3Pt_MakePercent" Title="Cn3 Mk%" Format="F2" />
-                <PropertyColumn Property="x => x.Shot_Dunk_AttemptPercent" Title="Dnk Att%" Format="F2" />
-
-                <PropertyColumn Property="x => x.Usage" Title="Usg%" Format="F2" />
-
-                <PropertyColumn Property="x => x.Similarity" Title="Score" Format="F1" StickyRight="true"/>
-            </Columns>
-            <PagerContent>
-                <MudDataGridPager />
-            </PagerContent>
-        </MudDataGrid>
-    </div>
-</div>
+}

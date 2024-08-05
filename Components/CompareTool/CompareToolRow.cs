@@ -54,7 +54,7 @@ namespace NBADemo.Components.CompareTool
             Usage = si.Usage ?? 0;
         }
 
-        public double? Similarity { get; set; }
+        public double Similarity { get; set; }
         public int PlayerId { get; set; }
         public int Season { get; set; }
         public string PlayerName { get; set; }
@@ -104,7 +104,7 @@ namespace NBADemo.Components.CompareTool
         {
             get
             {
-                return Height is null ? string.Empty : $"{(int)Height / 12}'{(int)Height % 12}\"";
+                return Height == 0 ? string.Empty : $"{(int)Height / 12}'{(int)Height % 12}\"";
             }
         }
     }

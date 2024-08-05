@@ -1,0 +1,12 @@
+﻿@if (string.IsNullOrWhiteSpace(ReportText))
+{
+    <div class="text-center">
+        <MudProgressCircular Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
+        <br />
+        Generating Report...
+    </div>
+}
+else
+{
+    @ReportText
+}

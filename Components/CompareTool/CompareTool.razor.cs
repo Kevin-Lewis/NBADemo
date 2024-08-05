@@ -4,16 +4,24 @@ using MudBlazor;
 using NBADemo.Components.CompareTool.Dialogs;
 using NBADemo.Components.CompareTool.Weights;
 using NBADemo.Data;
+using NBADemo.Services;
 using NBAShared;
+using System.Diagnostics.Metrics;
+using static MudBlazor.CategoryTypes;
+using static MudBlazor.Colors;
 
 namespace NBADemo.Components.CompareTool
 {
     public partial class CompareTool
     {
-        private int _minMinutes = 250;
+        private int _minMinutes = 500;
+        private CompareToolRow _selectedPlayer;
+        private int _selectedExperience = 0;
+
+        private bool _isCalculate;
 
         [Inject]
-        ApplicationDbContext DbContext { get; set; }
+        ApplicationDbContext DbContext { get; set; }       
         public List<PlayerSeasonInfo> PlayerSeasonInfo { get; set; }
         public Dictionary<short, PlayerCareerInfo> PlayerCareerInfo { get; set; }
         public Dictionary<string, PlayerPer100Stats> PlayerPer100Stats { get; set; }
@@ -22,12 +30,15 @@ namespace NBADemo.Components.CompareTool
         public Dictionary<string, PlayerShotSuccess> PlayerShotSuccess { get; set; }
 
         public List<CompareToolRow> CompareToolRows { get; set; }
+        public List<CompareToolRow> BaseCompareToolRows { get; set; }
 
         public PrimaryWeights PrimaryWeights { get; set; }
         public ShotLocationWeights ShotLocationWeights { get; set; }
         public ShotSuccessWeights ShotSuccessWeights { get; set; }
         public PositionWeights PositionWeights { get; set; }
         public Per100StatWeights Per100StatWeights { get; set; }
+
+        public SimilarityCalculator Calculator { get; set; }
 
         public Color ShotSuccessIconColor
         {
@@ -93,8 +104,8 @@ namespace NBADemo.Components.CompareTool
         }
 
         private void BuildCompareToolRows()
-        {
-            CompareToolRows = new List<CompareToolRow>();
+        {            
+            CompareToolRows = new List<CompareToolRow>();            
             foreach (var item in PlayerSeasonInfo)
             {
                 PlayerCareerInfo ci;
@@ -115,12 +126,31 @@ namespace NBADemo.Components.CompareTool
                 if (ci is not null && pb is not null && ss is not null && sl is not null && per100 is not null && ci.Height is not null && ci.Weight is not null && item.Usage is not null)
                 {
                     var row = new CompareToolRow(item, ci, per100, pb, ss, sl);
-                    if (row.Minutes >= _minMinutes)
+                    if (row.Minutes >= _minMinutes 
+                        && (row.Experience == _selectedExperience || _selectedExperience == 0 || (row.PlayerId == _selectedPlayer.PlayerId && row.Season == _selectedPlayer.Season)))
                     {
-                        CompareToolRows.Add(row);
+                        CompareToolRows.Add(row);                       
                     }
                 }
             }
+            Calculator = new SimilarityCalculator(PrimaryWeights, PositionWeights, Per100StatWeights, ShotLocationWeights, ShotSuccessWeights, CompareToolRows);
+            foreach (var row in CompareToolRows)
+            {
+                if (_selectedPlayer is not null && _isCalculate)
+                {
+                    var selectedRow = BaseCompareToolRows.FirstOrDefault(x => x.PlayerId == _selectedPlayer.PlayerId && x.Season == _selectedPlayer.Season);
+                    if (selectedRow is not null)
+                    {
+                        row.Similarity = Calculator.CalculateDistance(row, selectedRow) * 100;
+                    }
+                }
+            }
+            CompareToolRows = CompareToolRows.OrderByDescending(x=> x.Similarity).ToList();
+            if (BaseCompareToolRows is null)
+            {
+                BaseCompareToolRows = new List<CompareToolRow>(CompareToolRows);
+            }
+            _isCalculate = false;
         }
 
         private async Task<List<PlayerSeasonInfo>> GetProcessedPlayerSeasonInfo()
@@ -214,6 +244,12 @@ namespace NBADemo.Components.CompareTool
                 .ToDictionary(x => $"{x.PlayerId}:{x.SeasonId}", x => x);
         }
 
+        private void Calculate()
+        {
+            _isCalculate = true;
+            BuildCompareToolRows();
+        }
+
         private Task OpenShotSuccessWeights()
         {
             var parameters = new DialogParameters<ShotSuccessWeights>
@@ -301,5 +337,54 @@ namespace NBADemo.Components.CompareTool
         {
             (Per100StatWeights.PTSPer100, Per100StatWeights.ASTPer100, Per100StatWeights.ORBPer100, Per100StatWeights.DRBPer100, Per100StatWeights.TOVPer100, Per100StatWeights.FTAPer100, Per100StatWeights.FTPer100, Per100StatWeights.BLKPer100, Per100StatWeights.STLPer100, Per100StatWeights.PFPer100) = values;
         }
+
+        private async Task<IEnumerable<CompareToolRow>> PlayerSearch(string value, CancellationToken token)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }                
+            return BaseCompareToolRows.OrderBy(x => x.PlayerName).ThenByDescending(x => x.Season).Select(x => x).Where(x => x.PlayerName.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private void OnPlayerChange(CompareToolRow value)
+        {
+            _selectedPlayer = value;
+            if (_selectedPlayer is not null)
+            {
+                _selectedPlayer.Similarity = 100;
+            }
+            _selectedExperience = value?.Experience ?? 0;
+
+            BuildCompareToolRows();
+        }
+
+        private Func<CompareToolRow, string?> DisplayPlayerInSearch = item => item is null ? null : $"{item.PlayerName} - {item.Season} (Year {item.Experience})";
+        private Func<int, string?> DisplayExperience = item => item == 0 ? "All" : item.ToString();
+
+        private Func<CompareToolRow, int, string> RowStyleFunc => (x, i) =>
+        {
+            if (i % 2 == 1)
+                return "background-color:lightgrey;";
+
+            return "";
+        };
+
+        private Func<CompareToolRow, string> SimilarityStyleFunc => x =>
+        {
+            string style = x.Similarity switch
+            {
+                _ when x.Similarity >= 95 => "color:#00FF00;",
+                _ when x.Similarity >= 93 => "color:#80FF00;",
+                _ when x.Similarity >= 90 => "color:#CCFF00;",
+                _ when x.Similarity >= 88 => "color:#FFFF00;",
+                _ when x.Similarity >= 85 => "color:#FF8000;",
+                _ when x.Similarity >= 0 => "color:#FF0000;",
+                _ => ""
+            };
+            style += " font-weight:bold; background: #2E2E2E";
+            return style;
+        };
+
     }
 }

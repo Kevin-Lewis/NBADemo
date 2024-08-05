@@ -77,49 +77,368 @@
                     <PropertyColumn Property="x => x.Team" Title="Team" />
                     <PropertyColumn Property="x => x.Season" Title="Season" />
                     <PropertyColumn Property="x => x.Age" Title="Age" />
-                    <PropertyColumn Property="x => x.Experience" Title="Exp" />
-                    <TemplateColumn Sortable="true" SortBy="x => x.Height" Title="Ht">
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Experience" Color="Color.Primary" Placement="Placement.Top">
+                                Exp
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Experience</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Height" Color="Color.Primary" Placement="Placement.Top">
+                                Ht
+                            </MudTooltip>
+                        </HeaderTemplate>
                         <CellTemplate>
                             <span>@context.Item.HeightText</span>
                         </CellTemplate>
                     </TemplateColumn>
-                    <PropertyColumn Property="x => x.Weight" Title="Wt" Format="F0" />
 
-                    <PropertyColumn Property="x => x.Minutes" Title="Mins" Format="F0" />
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Weight" Color="Color.Primary" Placement="Placement.Top">
+                                Wt
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Weight.ToString("F0")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
 
-                    <PropertyColumn Property="x => x.PGPercent" Title="PG%" Format="F1" />
-                    <PropertyColumn Property="x => x.SGPercent" Title="SG%" Format="F1" />
-                    <PropertyColumn Property="x => x.SFPercent" Title="SF%" Format="F1" />
-                    <PropertyColumn Property="x => x.PFPercent" Title="PF%" Format="F1" />
-                    <PropertyColumn Property="x => x.CPercent" Title="C%" Format="F1" />
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Minutes" Color="Color.Primary" Placement="Placement.Top">
+                                Mins
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Minutes.ToString("F0")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
 
-                    <PropertyColumn Property="x => x.PointsPer100" Title="Pts/100" Format="F1" />
-                    <PropertyColumn Property="x => x.AssistsPer100" Title="Ast/100" Format="F1" />
-                    <PropertyColumn Property="x => x.OffensiveReboundsPer100" Title="OReb/100" Format="F1" />
-                    <PropertyColumn Property="x => x.DefensiveReboundsPer100" Title="DReb/100" Format="F1" />
-                    <PropertyColumn Property="x => x.BlocksPer100" Title="Blk/100" Format="F1" />
-                    <PropertyColumn Property="x => x.StealsPer100" Title="Stl/100" Format="F1" />
-                    <PropertyColumn Property="x => x.TurnoversPer100" Title="TO/100" Format="F1" />
-                    <PropertyColumn Property="x => x.FreeThrowMakesPer100" Title="FTM/100" Format="F1" />
-                    <PropertyColumn Property="x => x.FreeThrowAttemptsPer100" Title="FTA/100" Format="F1" />
-                    <PropertyColumn Property="x => x.PersonalFoulsPer100" Title="PF/100" Format="F1" />
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Minutes Listed at PG" Color="Color.Primary" Placement="Placement.Top">
+                                PG%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.PGPercent.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
 
-                    <PropertyColumn Property="x => x.Shot_0To3_AttemptPercent" Title="0-3 Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_0To3_MakePercent" Title="0-3 Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_3To10_AttemptPercent" Title="3-10 Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_3To10_MakePercent" Title="3-10 Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_10To16_AttemptPercent" Title="10-16 Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_10To16_MakePercent" Title="10-16 Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_16To3Pt_AttemptPercent" Title="16-3pt Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_16To3Pt_MakePercent" Title="16-3Pt Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_3Pt_AttemptPercent" Title="3pt Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_3Pt_MakePercent" Title="3pt Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_Corner_3PtOf3s_AttemptPercent" Title="Cn3 Att%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_Corner_3Pt_MakePercent" Title="Cn3 Mk%" Format="F2" />
-                    <PropertyColumn Property="x => x.Shot_Dunk_AttemptPercent" Title="Dnk Att%" Format="F2" />
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Minutes Listed at SG" Color="Color.Primary" Placement="Placement.Top">
+                                SG%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.SGPercent.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
 
-                    <PropertyColumn Property="x => x.Usage" Title="Usg%" Format="F2" />
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Minutes Listed at SF" Color="Color.Primary" Placement="Placement.Top">
+                                SF%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.SFPercent.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
 
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Minutes Listed at PF" Color="Color.Primary" Placement="Placement.Top">
+                                PF%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.PFPercent.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Minutes Listed at C" Color="Color.Primary" Placement="Placement.Top">
+                                C%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.CPercent.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Points Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                Pts/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.PointsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Assists Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                Ast/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.AssistsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Offensive Rebounds Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                OReb/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.OffensiveReboundsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Defensive Rebounds Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                DReb/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.DefensiveReboundsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Blocks Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                Blk/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.BlocksPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Steals Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                Stl/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.StealsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Turnovers Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                TO/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.TurnoversPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Free Throws Made Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                FTM/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.FreeThrowMakesPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Free Throws Attempted Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                FTA/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.FreeThrowAttemptsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Personal Fouls Per 100 Possessions" Color="Color.Primary" Placement="Placement.Top">
+                                PF/100
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.PersonalFoulsPer100.ToString("F1")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts between 0 and 3 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                0-3 Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_0To3_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Shooting Percentage Between 0 Feet and 3 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                0-3 Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_0To3_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts Between 3 and 10 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                3-10 Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_3To10_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Shooting Percentage Between 3 and 10 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                3-10 Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_3To10_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts Between 10 and 16 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                10-16 Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_10To16_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Shooting Percentage Between 10 and 16 Feet" Color="Color.Primary" Placement="Placement.Top">
+                                10-16 Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_10To16_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts Between 16 Feet and the 3 Point Line" Color="Color.Primary" Placement="Placement.Top">
+                                16-3pt Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_16To3Pt_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Shooting Percentage Between 16 Feet and the Three Point Line" Color="Color.Primary" Placement="Placement.Top">
+                                16-3Pt Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_16To3Pt_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts From Behind the 3 Point Line" Color="Color.Primary" Placement="Placement.Top">
+                                3pt Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_3Pt_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Three Point Shooting Percentage" Color="Color.Primary" Placement="Placement.Top">
+                                3pt Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_3Pt_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Three Point Attempts that are Corner Threes" Color="Color.Primary" Placement="Placement.Top">
+                                Cn3 Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_Corner_3PtOf3s_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Corner Three Shooting Percentage" Color="Color.Primary" Placement="Placement.Top">
+                                Cn3 Mk%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_Corner_3Pt_MakePercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Percentage of Attempts that are Dunks" Color="Color.Primary" Placement="Placement.Top">
+                                Dnk Att%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Shot_Dunk_AttemptPercent.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    <TemplateColumn>
+                        <HeaderTemplate>
+                            <MudTooltip Text="Usage Percentage" Color="Color.Primary" Placement="Placement.Top">
+                                Usg%
+                            </MudTooltip>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <span>@context.Item.Usage.ToString("F2")</span>
+                        </CellTemplate>
+                    </TemplateColumn>
                     <PropertyColumn Property="x => x.Similarity" Title="Score" Format="F1" StickyRight="true" CellStyleFunc="@SimilarityStyleFunc" />
                 </Columns>
                 <ChildRowContent>
